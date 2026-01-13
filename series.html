@@ -136,35 +136,43 @@ footer {
 <!-- TÍTULO -->
 <h1 class="page-title">SÉRIES</h1>
 
-<!-- GRID DE SÉRIES -->
-<section class="grid">
-
-  <!-- BILLIONS -->
-  <div class="card" onclick="location.href='series/billions.html'">
-    <img src="assets/icons/icon-512.png" alt="Billions">
-    <h3>Billions</h3>
-    <span>7 Temporadas</span>
-  </div>
-
-  <!-- EXEMPLOS FUTUROS -->
-  <div class="card">
-    <img src="assets/icons/icon-192.png" alt="Em breve">
-    <h3>Em breve</h3>
-    <span>Nova série</span>
-  </div>
-
-  <div class="card">
-    <img src="assets/icons/icon-192.png" alt="Em breve">
-    <h3>Em breve</h3>
-    <span>Nova série</span>
-  </div>
-
+<!-- GRID DINÂMICO -->
+<section class="grid" id="seriesGrid">
+  <!-- séries carregadas via JSON -->
 </section>
 
 <!-- FOOTER -->
 <footer>
   © 2026 • SK PLAY • Séries
 </footer>
+
+<!-- SCRIPT -->
+<script>
+fetch("series.json")
+  .then(response => response.json())
+  .then(series => {
+    const grid = document.getElementById("seriesGrid");
+
+    series.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.onclick = () => {
+        location.href = `series/${item.slug}/index.html`;
+      };
+
+      card.innerHTML = `
+        <img src="${item.icone}" alt="${item.titulo}">
+        <h3>${item.titulo}</h3>
+        <span>${item.temporadas} Temporadas</span>
+      `;
+
+      grid.appendChild(card);
+    });
+  })
+  .catch(error => {
+    console.error("Erro ao carregar séries:", error);
+  });
+</script>
 
 </body>
 </html>
