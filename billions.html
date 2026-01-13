@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Billions • SK PLAY</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0f1115;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* HEADER */
+header {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  background: #0b0d11;
+}
+
+header h1 {
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: 100px auto 40px;
+  padding: 0 20px;
+}
+
+/* PLAYER */
+video {
+  width: 100%;
+  border-radius: 12px;
+  background: #000;
+}
+
+/* CONTROLS */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.controls button {
+  background: #1a1d24;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #2a2e3a;
+}
+
+/* SELECTS */
+.selectors {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+select {
+  background: #1a1d24;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* EP TITLE */
+#epTitle {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #ccc;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #666;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>SK PLAY</h1>
+</header>
+
+<div class="container">
+
+  <h2>Billions</h2>
+
+  <div class="selectors">
+    <select id="seasonSelect"></select>
+    <select id="episodeSelect"></select>
+  </div>
+
+  <video id="player" controls></video>
+
+  <div id="epTitle"></div>
+
+  <div class="controls">
+    <button onclick="prevEpisode()">◀ Anterior</button>
+    <button onclick="nextEpisode()">Próximo ▶</button>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 • SK PLAY
+</footer>
+
+<script>
+const baseURL = "https://cdn3.cnvsplay.com/Billions%20S";
+const suffix = "_62852.mp4";
+
+const series = {
+  1: [
+    "Piloto","Direitos de Nome","YumTime","Venda a Descoberto","A Boa Vida",
+    "O Acordo","O Soco","Ostentação e Trilhos","Onde P*** Está Donnie?",
+    "Qualidade de Vida","Pensamento Mágico","A Conversa"
+  ],
+  2: [
+    "Gestão de Risco","Gato Morto Quicando","Jogada Ideal","O Juramento","Moeda",
+    "Índio Quatro","Volta da Vitória","O Fazedor de Reis","Assim Passa o Império",
+    "Com ou Sem Você","Hora do Sapo Dourado","Bola na Mão"
+  ],
+  3: [
+    "Empate Vai para o Corredor","A Maria Gonzalez Errada","Uma Geração Atrasada",
+    "Viagem do Inferno","Falha na Estrela da Morte","O Terceiro Ortolan",
+    "Não Você, Sr. Dake","Todos os Wilburys","Quebra-Gelo","Redenção",
+    "Compensação","Contagem de Elmsley"
+  ],
+  4: [
+    "O Maior Jogo de Chuck Rhoades","Modelo de Excitação","Chickentown",
+    "Janela de Overton","Uma Despedida Apropriada","Profundidade Máxima Recreativa",
+    "Jogo Infinito","Noite de Luta","Campeão Americano","Dia de Ano-Novo",
+    "Lamster","Caixa de Areia Extrema"
+  ],
+  5: [
+    "Os Novos Decas","O Teste de Chris Rock","Pedir, Subornar, Intimidar",
+    "Zona de Oportunidade","Contrato","O Modelo Nórdico","A Merda Ilimitada",
+    "Copenhague","Implosão","Liberdade","Fumaça da Vitória","Sem Direção para Casa"
+  ],
+  6: [
+    "Canhonada","Olhos Mentirosos","DST","Queima de Caixa","Rocha do Olho",
+    "Inimigos da Humanidade","O Chapéu de Napoleão","O Grande e Feio",
+    "Hindenburg","Johnny Favorito","Sucessão","Armazenamento a Frio"
+  ],
+  7: [
+    "Torre de Londres","Pecado Original","Energia de Winston Dick","Furacão Rosie",
+    "O Arquipélago Gulag","O Homem da Camiseta Verde-Oliva","DMV","A Coruja",
+    "Teoria dos Jogos Ótima","Lista de Inimigos","Axe Global","Fundo dos Almirantes"
+  ]
+};
+
+let season = 1;
+let episode = 1;
+
+const seasonSelect = document.getElementById("seasonSelect");
+const episodeSelect = document.getElementById("episodeSelect");
+const player = document.getElementById("player");
+const epTitle = document.getElementById("epTitle");
+
+function pad(n) {
+  return n.toString().padStart(2, "0");
+}
+
+function loadSeasons() {
+  Object.keys(series).forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s;
+    opt.text = "Temporada " + s;
+    seasonSelect.appendChild(opt);
+  });
+}
+
+function loadEpisodes() {
+  episodeSelect.innerHTML = "";
+  series[season].forEach((_, i) => {
+    const opt = document.createElement("option");
+    opt.value = i + 1;
+    opt.text = "Episódio " + (i + 1);
+    episodeSelect.appendChild(opt);
+  });
+}
+
+function loadPlayer() {
+  const url = `${baseURL}${pad(season)}%20E${pad(episode)}${suffix}`;
+  player.src = url;
+  epTitle.innerText = `T${season} • EP${episode} — ${series[season][episode - 1]}`;
+}
+
+seasonSelect.onchange = () => {
+  season = parseInt(seasonSelect.value);
+  episode = 1;
+  loadEpisodes();
+  loadPlayer();
+};
+
+episodeSelect.onchange = () => {
+  episode = parseInt(episodeSelect.value);
+  loadPlayer();
+};
+
+function nextEpisode() {
+  if (episode < series[season].length) {
+    episode++;
+  } else if (season < Object.keys(series).length) {
+    season++;
+    episode = 1;
+    seasonSelect.value = season;
+    loadEpisodes();
+  }
+  episodeSelect.value = episode;
+  loadPlayer();
+}
+
+function prevEpisode() {
+  if (episode > 1) {
+    episode--;
+  } else if (season > 1) {
+    season--;
+    seasonSelect.value = season;
+    loadEpisodes();
+    episode = series[season].length;
+  }
+  episodeSelect.value = episode;
+  loadPlayer();
+}
+
+loadSeasons();
+loadEpisodes();
+loadPlayer();
+</script>
+
+</body>
+</html>
