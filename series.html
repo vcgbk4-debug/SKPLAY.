@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Séries • SK PLAY</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1c2d">
+
+<style>
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(circle at top, #0b1c2d, #05070c);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* HEADER */
+header {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+}
+
+header a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+nav a {
+  margin-left: 25px;
+  color: #bbb;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+/* TÍTULO */
+.page-title {
+  text-align: center;
+  margin: 50px 0 30px;
+  font-size: 34px;
+  letter-spacing: 3px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+  padding: 0 40px 60px;
+}
+
+/* CARD */
+.card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border-radius: 16px;
+  padding: 25px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(100,150,255,0.4);
+}
+
+/* ÍCONE */
+.card img {
+  width: 80px;
+  margin-bottom: 18px;
+}
+
+/* TEXTO */
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.card span {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: #666;
+  background: rgba(0,0,0,0.4);
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  header {
+    padding: 0 20px;
+  }
+
+  .grid {
+    padding: 0 20px 50px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html">SK PLAY</a>
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="filmes.html">Filmes</a>
+    <a href="series.html">Séries</a>
+    <a href="canais.html">Canais Ao Vivo</a>
+  </nav>
+</header>
+
+<!-- TÍTULO -->
+<h1 class="page-title">SÉRIES</h1>
+
+<!-- GRID DE SÉRIES -->
+<section class="grid">
+
+  <!-- BILLIONS -->
+  <div class="card" onclick="location.href='series/billions.html'">
+    <img src="assets/icons/icon-512.png" alt="Billions">
+    <h3>Billions</h3>
+    <span>7 Temporadas</span>
+  </div>
+
+  <!-- EXEMPLOS FUTUROS -->
+  <div class="card">
+    <img src="assets/icons/icon-192.png" alt="Em breve">
+    <h3>Em breve</h3>
+    <span>Nova série</span>
+  </div>
+
+  <div class="card">
+    <img src="assets/icons/icon-192.png" alt="Em breve">
+    <h3>Em breve</h3>
+    <span>Nova série</span>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 • SK PLAY • Séries
+</footer>
+
+</body>
+</html>
