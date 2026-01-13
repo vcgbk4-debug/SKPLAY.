@@ -149,16 +149,14 @@ footer {
 <!-- SCRIPT -->
 <script>
 fetch("series.json")
-  .then(response => response.json())
+  .then(res => res.json())
   .then(series => {
     const grid = document.getElementById("seriesGrid");
 
     series.forEach(item => {
       const card = document.createElement("div");
       card.className = "card";
-      card.onclick = () => {
-        location.href = `series/${item.slug}/index.html`;
-      };
+      card.onclick = () => location.href = item.arquivo;
 
       card.innerHTML = `
         <img src="${item.icone}" alt="${item.titulo}">
@@ -168,11 +166,9 @@ fetch("series.json")
 
       grid.appendChild(card);
     });
-  })
-  .catch(error => {
-    console.error("Erro ao carregar séries:", error);
   });
 </script>
+
 
 </body>
 </html>
